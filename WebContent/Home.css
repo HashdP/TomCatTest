@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+*{
+	margin : 0px;
+	padding : 0px;
+}
+
+.canvas-wrapper{
+	position : relative;
+}
+
+.canvas-wrapper canvas{
+	position : absolute;
+	top : 0px;
+	left : 0px;
+}
+
+.canvas-wrapper #sample1{
+	position : fixed;
+	top : 0;
+}
+
+/*　中央のボタン */
+.canvas-wrapper #testButton{
+	position : relation;
+}
+
+body{
+	background: linear-gradient(-90deg, #FFA3F0, #E3E9B9);
+}

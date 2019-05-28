@@ -6,10 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ShowDateJSP</title>
+<link rel="stylesheet" href=".\Home.css">
 </head>
 
-<body>
-    <h2>入力フォーム</h2>
+<body onLoad="draw()">
+
+	<div class = "canvas-wrapper">
+		<canvas id="testButton" width="200" height="60"></canvas>
+		<canvas id="sample1"></canvas>
+	</div>
+	
+	<script type="text/javascript" src="./JavaScriptTest.js"></script>
+    
+    <!-- 
     <form action="http://localhost:8080/WebHello/DisplayRequest" method="post">
 		<table border="1">
 			<tr>
@@ -36,10 +45,12 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="次へ"></td>
+				<td><input type="submit" value="次へ" name="test"></td>
 			</tr>
 		</table>
 	</form>
+	 -->
+	 
 </body>
 
 </html>

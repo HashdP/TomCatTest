@@ -3,6 +3,7 @@ package pack;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,11 +21,11 @@ public class ShowDateServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 	    throws ServletException, IOException
 	{
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("");
-		out.println("");
-		out.println("");
-		out.println("");
+		request.setAttribute("test", "Java‚©‚ç“n‚³‚ê‚½’l‚Å‚·");
+		
+		String view = "/WEB-INF/ShowDate.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		
+		dispatcher.forward(request, response);
 	}
 }
