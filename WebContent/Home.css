@@ -24,6 +24,15 @@
 	position : absolute;
 }
 
+#sorceCode{
+	text-align : center;
+}
+
+#time{
+	top : 400px;
+	left : 400px;
+}
+
 body{
 	background: linear-gradient(-90deg, #FFA3F0, #E3E9B9);
 }
