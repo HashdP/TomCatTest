@@ -12,8 +12,10 @@
 <body onLoad="draw()">
 
 	<div class = "canvas-wrapper">
-		<canvas id="testButton" width="200" height="60"></canvas>
-		<canvas id="sample1"></canvas>
+		<canvas id="testButton1" width="210" height="63"></canvas>
+		<canvas id="testButton2" width="200" height="60"></canvas>
+		<canvas id="header"></canvas>
+		<canvas id="menu"></canvas>
 	</div>
 	
 	<script type="text/javascript" src="./JavaScriptTest.js"></script>

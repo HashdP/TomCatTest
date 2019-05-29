@@ -15,14 +15,13 @@
 	left : 0px;
 }
 
-.canvas-wrapper #sample1{
+.canvas-wrapper #header, .canvas-wrapper #menu{
 	position : fixed;
 	top : 0;
 }
 
-/*　中央のボタン */
-.canvas-wrapper #testButton{
-	position : relation;
+.canvas-wrapper #testButton1, .canvas-wrapper #testButton2{
+	position : absolute;
 }
 
 body{
