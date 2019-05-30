@@ -15,7 +15,7 @@
 	left : 0px;
 }
 
-.canvas-wrapper #header, .canvas-wrapper #menu{
+.canvas-wrapper #header, .canvas-wrapper #menu, .canvas-wrapper #flip{
 	position : fixed;
 	top : 0;
 }
@@ -36,3 +36,6 @@
 body{
 	background: linear-gradient(-90deg, #FFA3F0, #E3E9B9);
 }
+
+
+

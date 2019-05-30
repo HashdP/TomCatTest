@@ -51,20 +51,12 @@ function draw(){
 	
 	if(menuCanvas.getContext){
 		var context = menuCanvas.getContext('2d');
-
 		context.fillStyle = '#100000';
 		context.fillRect(0,0,menuSize, sh);
-
-		context.fillStyle = '#b22222';
-		context.fillRect(0,0,menuSize,menuSize);
-		
-		context.strokeStyle = "#c0c0c0";
-		context.lineWidth = 5;
-		context.strokeRect(0,0,menuSize,menuSize);
 	}
 	
 	if(testButton1Canvas.getContext){
-		drawButton(testButton1Canvas, "#696969", 0.95);
+		drawButton(testButton1Canvas, "#696969", 0.95, "アニメーション");
 	}
 	
 	if(testButton2Canvas.getContext){
@@ -92,33 +84,19 @@ function resize(){
 function reload(){
 	resize();
 	draw();
+	bgLineResize();
 }
 
-function onMouseDown1(){ drawButton(testButton1Canvas, "#800000", 1.0);  }
-function onMouseUp1(){   drawButton(testButton1Canvas, "#800000", 0.95); }
-function onMouseOver1(){ drawButton(testButton1Canvas, "#800000", 0.95); flipSquare(0.2, "#00ff00"); }
-function onMouseOut1(){  drawButton(testButton1Canvas, "#696969", 0.95); flipSquare(0.2, "#ff0000"); }
-
-window.addEventListener('resize', reload, false);
-testButton1Canvas.addEventListener('mousedown', onMouseDown1, false);
-testButton1Canvas.addEventListener('mouseup', onMouseUp1, false);
-testButton1Canvas.addEventListener('mouseover', onMouseOver1, false);
-testButton1Canvas.addEventListener('mouseout', onMouseOut1, false);
-resize();
+function onMouseDown1(){ drawButton(testButton1Canvas, "#800000", 1.0, "クリック！");  }
+function onMouseUp1(){   drawButton(testButton1Canvas, "#800000", 0.95, "アニメーション"); }
+function onMouseOver1(){ drawButton(testButton1Canvas, "#800000", 0.95, "アニメーション"); flipSquare(0.2, "#adff2f"); }
+function onMouseOut1(){  drawButton(testButton1Canvas, "#696969", 0.95, "アニメーション"); flipSquare(0.2, "#cd5c5c"); }
 
 /*comment canvasのアニメーション*/
 const timeCanvas = document.getElementById('time');
 
 function drawTime(ctx, t) {
 	ctx.save();
-    
-    /*comment　イージング*/
-    var easeInOutCubic = function (t, b, c, d) {
-    	t /= d/2;
-    	if (t < 1) return c/2*t*t*t + b;
-    	t -= 2;
-    	return c/2*(t*t*t + 2) + b;
-    };
 	
 	/*comment 描画をクリア*/
 	ctx.clearRect(0,0,timeCanvas.width,timeCanvas.height);
@@ -156,31 +134,32 @@ requestAnimationFrame(function (t0) {
     function render(t1) {
     	drawTime(ctx, t1 - t0);
     	requestAnimationFrame(render);
-    	
-    	/*
-    	const progress = (t1-t0) / 1000;
-    	
-    	if(progress < 3){
-            requestAnimationFrame(render);
-    	}
-    	else{
-    	}
-    	*/
     }
 });
 
+/*comment イージング*/
+function easeInOutCubic(t, b, c, d) {
+	t /= d/2;
+	if (t < 1) return c/2*t*t*t + b;
+	t -= 2;
+	return c/2*(t*t*t + 2) + b;
+};
 
 /*comment フリップアニメーション*/
 const flipCanvas = document.getElementById('flip');
-var flipCanvasColor = "#ff0000"
+var flipCanvasColor = "#cd5c5c"
 
 function drawFlipSquare(theta){
 	var ctx = flipCanvas.getContext('2d');
+
+	ctx.save();
 	
 	ctx.clearRect(0,0,flip.width,flip.height);
 	
+	ctx.translate(flipCanvas.width/2,flipCanvas.height/2);
+	
 	ctx.fillStyle = "#000000";
-	ctx.fillRect(0,0,flip.width,flip.height);
+	ctx.fillRect(-flip.width/2,-flip.height/2,flip.width,flip.height);
 	
 	var radius = Math.sqrt(Math.pow(flip.width/2, 2) + Math.pow(flip.height/2, 2));
 	var diagonalLength = radius * Math.cos(theta);
@@ -188,12 +167,18 @@ function drawFlipSquare(theta){
 	
 	ctx.fillStyle = flipCanvasColor;
 	ctx.beginPath();
-	ctx.moveTo(flip.width/2 - diagonalPos, flip.height/2 - diagonalPos);
-	ctx.lineTo(200,   0);
-	ctx.lineTo(flip.width/2 + diagonalPos, flip.height/2 + diagonalPos);
-	ctx.lineTo(  0, 200);
+	ctx.moveTo(-diagonalPos, -diagonalPos);
+	ctx.lineTo(flipCanvas.width/2, -flipCanvas.height/2);
+	ctx.lineTo(diagonalPos, diagonalPos);
+	ctx.lineTo(-flipCanvas.width/2, flipCanvas.height/2);
 	ctx.closePath();
 	ctx.fill();
+	
+	ctx.lineWidth = 10;
+	ctx.strokeStyle = "#8b4513";
+	ctx.strokeRect(-flip.width/2,-flip.height/2,flip.width,flip.height);
+	
+	ctx.restore();
 }
 
 function flipSquare(time, toColor){
@@ -203,10 +188,10 @@ function flipSquare(time, toColor){
 	    	const progress = (t1-t0) / 1000;
 	    	var theta = Math.PI * (progress / time);
 	    	
-	    	if(progress < time/2){
+	    	if(theta < Math.PI/2){
 		    	drawFlipSquare(theta);
 	    	    requestAnimationFrame(render);
-	    	}else if(progress < time){
+	    	}else if(theta < Math.PI){
 	    		flipCanvasColor = toColor;
 		    	drawFlipSquare(theta);
 	    	    requestAnimationFrame(render);
@@ -217,4 +202,36 @@ function flipSquare(time, toColor){
 	});
 }
 
+/*comment 背景ラインアニメーション*/
+const bgLineCanvas = document.getElementById('bgLine');
+
+function bgLineResize(){
+	var cw = document.body.clientWidth;
+	var ch = document.body.clientHeight;
+	
+	bgLineCanvas.setAttribute("width", cw);
+	bgLineCanvas.setAttribute("height", ch);
+	
+	var ctx = bgLineCanvas.getContext('2d');
+	
+	ctx.beginPath();
+	ctx.lineWidth = 20;
+    ctx.lineCap = 'round';
+	ctx.moveTo(bgLineCanvas.width, bgLineCanvas.height);
+	ctx.lineTo(bgLineCanvas.width - 500, bgLineCanvas.height - 500);
+	ctx.stroke();
+}
+
+function lineAnimation(startX, startY, endX, endY, beginInterval, duration){
+	
+}
+
 drawFlipSquare(Math.PI);
+bgLineResize();
+
+window.addEventListener('resize', reload, false);
+testButton1Canvas.addEventListener('mousedown', onMouseDown1, false);
+testButton1Canvas.addEventListener('mouseup', onMouseUp1, false);
+testButton1Canvas.addEventListener('mouseover', onMouseOver1, false);
+testButton1Canvas.addEventListener('mouseout', onMouseOut1, false);
+reload();
